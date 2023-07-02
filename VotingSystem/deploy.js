@@ -8,7 +8,7 @@ const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
 const Identity = async () => {
   const signer = provider.getSigner();
   const contract = new ethers.Contract(address, contractabi, signer);
-  console.log("IdentityContract", contract);
+  console.log("IdentityContract", contract.address);
   // const adder = await contract.ADDER;
   // console.log("adder", adder);
 
