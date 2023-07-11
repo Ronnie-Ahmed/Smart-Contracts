@@ -1,7 +1,13 @@
-const address = "0xAc40c9C8dADE7B9CF37aEBb49Ab49485eBD3510d";
+const address = "0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8";
 const contractabi = [
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "_arbiter",
+        type: "address",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "constructor",
   },
@@ -96,11 +102,11 @@ const contractabi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "_tokenID",
+        name: "tokenId",
         type: "uint256",
       },
     ],
-    name: "buytoken",
+    name: "bidStart",
     outputs: [],
     stateMutability: "payable",
     type: "function",
@@ -109,16 +115,11 @@ const contractabi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "tokenID",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_price",
+        name: "tokenId",
         type: "uint256",
       },
     ],
-    name: "changeTokenPrice",
+    name: "burnitem",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -127,12 +128,12 @@ const contractabi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "time",
+        name: "tokenId",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "_expectedPrice",
+        name: "_duration",
         type: "uint256",
       },
     ],
@@ -142,16 +143,41 @@ const contractabi = [
     type: "function",
   },
   {
+    anonymous: false,
     inputs: [
       {
+        indexed: true,
+        internalType: "address",
+        name: "auctionowner",
+        type: "address",
+      },
+      {
+        indexed: false,
         internalType: "uint256",
-        name: "tokenID",
+        name: "_auctionduration",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_auctionId",
         type: "uint256",
       },
     ],
-    name: "destroymytoken",
+    name: "CreateAuction",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "endAuction",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -168,49 +194,49 @@ const contractabi = [
     type: "event",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_price",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "_tokenuri",
-        type: "string",
-      },
-    ],
-    name: "mintToken",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
     anonymous: false,
     inputs: [
       {
+        indexed: false,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
         indexed: true,
         internalType: "address",
-        name: "seller",
+        name: "donar",
         type: "address",
       },
       {
         indexed: false,
         internalType: "uint256",
-        name: "price",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenid",
+        name: "itemId",
         type: "uint256",
       },
       {
         indexed: false,
         internalType: "uint256",
-        name: "timestamp",
+        name: "auctionstart",
         type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "auctionend",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "highestbid",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "highestbidder",
+        type: "address",
       },
       {
         indexed: false,
@@ -220,55 +246,40 @@ const contractabi = [
       },
       {
         indexed: false,
-        internalType: "uint256[]",
-        name: "relatedTokens",
-        type: "uint256[]",
+        internalType: "uint256",
+        name: "startingPrice",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "isListed",
+        type: "bool",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "isAuctionEnd",
+        type: "bool",
       },
     ],
-    name: "NFTCreated",
+    name: "Mint",
     type: "event",
   },
   {
-    anonymous: false,
     inputs: [
       {
-        indexed: true,
-        internalType: "address",
-        name: "buyer",
-        type: "address",
+        internalType: "string",
+        name: "_tokenuri",
+        type: "string",
       },
       {
-        indexed: false,
         internalType: "uint256",
-        name: "price",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenid",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "timestamp",
+        name: "_startingPrice",
         type: "uint256",
       },
     ],
-    name: "NFTbuy",
-    type: "event",
-  },
-  {
-    inputs: [],
-    name: "pause",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "pausecontract",
+    name: "mintItem",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -285,6 +296,26 @@ const contractabi = [
     ],
     name: "Paused",
     type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "releaseFund",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "reset",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
@@ -404,13 +435,6 @@ const contractabi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "unpausecontract",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     anonymous: false,
     inputs: [
       {
@@ -422,6 +446,32 @@ const contractabi = [
     ],
     name: "Unpaused",
     type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "arbiter",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [
@@ -443,45 +493,74 @@ const contractabi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "getAllnfts",
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "bidamount",
     outputs: [
       {
-        components: [
-          {
-            internalType: "address payable",
-            name: "seller",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "price",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "tokenid",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "tokenuri",
-            type: "string",
-          },
-          {
-            internalType: "uint256[]",
-            name: "relatedTokens",
-            type: "uint256[]",
-          },
-        ],
-        internalType: "struct NFTmarketPlace.NFT[]",
+        internalType: "uint256",
         name: "",
-        type: "tuple[]",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "bidwinner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "Contractowner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "estate",
+    outputs: [
+      {
+        internalType: "enum CharityAuction.State",
+        name: "",
+        type: "uint8",
       },
     ],
     stateMutability: "view",
@@ -507,51 +586,6 @@ const contractabi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "getMYnft",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "address payable",
-            name: "seller",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "price",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "tokenid",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "tokenuri",
-            type: "string",
-          },
-          {
-            internalType: "uint256[]",
-            name: "relatedTokens",
-            type: "uint256[]",
-          },
-        ],
-        internalType: "struct NFTmarketPlace.NFT[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -559,32 +593,67 @@ const contractabi = [
         type: "uint256",
       },
     ],
-    name: "idtonft",
+    name: "idtodonar",
     outputs: [
       {
-        internalType: "address payable",
-        name: "seller",
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "donar",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "price",
+        name: "itemId",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "tokenid",
+        name: "auctionstart",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "timestamp",
+        name: "auctionend",
         type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "highestbid",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "highestbidder",
+        type: "address",
       },
       {
         internalType: "string",
         name: "tokenuri",
         type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "startingPrice",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "isListed",
+        type: "bool",
+      },
+      {
+        internalType: "bool",
+        name: "isAuctionEnd",
+        type: "bool",
+      },
+      {
+        internalType: "uint256",
+        name: "bidCount",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -662,6 +731,25 @@ const contractabi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "state",
+    outputs: [
+      {
+        internalType: "enum CharityAuction.State",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes4",
         name: "interfaceId",
         type: "bytes4",
@@ -692,19 +780,6 @@ const contractabi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "time",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -718,6 +793,25 @@ const contractabi = [
         internalType: "string",
         name: "",
         type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "viewallbids",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
       },
     ],
     stateMutability: "view",
