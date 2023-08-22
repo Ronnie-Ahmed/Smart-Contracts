@@ -1,94 +1,126 @@
-const address = "0xD9D1477Cc1D7a0635Fada8CbA644615ef87c8Bc3";
+const address = "0x64eBc7D246699db943917e8be1eB12C28B2aE322";
 const contractabi = [
   {
+    anonymous: false,
     inputs: [
       {
-        internalType: "string",
-        name: "_projectname",
-        type: "string",
+        indexed: true,
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
       },
       {
-        internalType: "uint256",
-        name: "_targetAmount",
-        type: "uint256",
+        indexed: true,
+        internalType: "bytes32",
+        name: "previousAdminRole",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "newAdminRole",
+        type: "bytes32",
       },
     ],
-    name: "addProjectToList",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    name: "RoleAdminChanged",
+    type: "event",
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
         internalType: "address",
-        name: "owner",
+        name: "account",
         type: "address",
       },
       {
-        indexed: false,
-        internalType: "string",
-        name: "projectname",
-        type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "projectId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "targetAmount",
-        type: "uint256",
+        indexed: true,
+        internalType: "address",
+        name: "sender",
+        type: "address",
       },
     ],
-    name: "AddtoProjectList",
+    name: "RoleGranted",
     type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "projectId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "fundProject",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
         internalType: "address",
-        name: "previousOwner",
+        name: "account",
         type: "address",
       },
       {
         indexed: true,
         internalType: "address",
-        name: "newOwner",
+        name: "sender",
         type: "address",
       },
     ],
-    name: "OwnershipTransferred",
+    name: "RoleRevoked",
     type: "event",
   },
   {
     inputs: [],
-    name: "renounceOwnership",
+    name: "DEFAULT_ADMIN_ROLE",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+    ],
+    name: "getRoleAdmin",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "grantRole",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -96,12 +128,41 @@ const contractabi = [
   {
     inputs: [
       {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
         internalType: "address",
-        name: "newOwner",
+        name: "account",
         type: "address",
       },
     ],
-    name: "transferOwnership",
+    name: "hasRole",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "renounceRole",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -109,95 +170,35 @@ const contractabi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "ProjectId",
-        type: "uint256",
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
       },
-    ],
-    name: "crowdFund",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "fund",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "projectId",
-        type: "uint256",
-      },
-    ],
-    name: "fundLeftToget",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "owner",
-    outputs: [
       {
         internalType: "address",
-        name: "",
+        name: "account",
         type: "address",
       },
     ],
-    stateMutability: "view",
+    name: "revokeRole",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "projectId",
-        type: "uint256",
+        internalType: "bytes4",
+        name: "interfaceId",
+        type: "bytes4",
       },
     ],
-    name: "viewListedProject",
+    name: "supportsInterface",
     outputs: [
       {
-        components: [
-          {
-            internalType: "address",
-            name: "owner",
-            type: "address",
-          },
-          {
-            internalType: "string",
-            name: "projectname",
-            type: "string",
-          },
-          {
-            internalType: "uint256",
-            name: "projectId",
-            type: "uint256",
-          },
-          {
-            internalType: "bool",
-            name: "isFinished",
-            type: "bool",
-          },
-          {
-            internalType: "uint256",
-            name: "targetAmount",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct CrowdFunding.ProjectDetails",
+        internalType: "bool",
         name: "",
-        type: "tuple",
+        type: "bool",
       },
     ],
     stateMutability: "view",
