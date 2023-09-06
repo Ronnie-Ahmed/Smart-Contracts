@@ -24,8 +24,6 @@ contract TokenStaking is ReentrancyGuard, Ownable {
     uint256 extraPression = uint256(10e5);
     uint256[] stakingDays;
 
-    address owner;
-
     uint[] private ApyingRate;
     IERC20 public StakeToken;
 
@@ -71,6 +69,23 @@ contract TokenStaking is ReentrancyGuard, Ownable {
             ApyingRate.push(perApyRate[i]);
         }
     }
+
+    ///////////////////
+    //Events Function//
+    ///////////////////
+
+    event AddStakeValue(
+        address indexed _user,
+        uint256 _amount,
+        uint256 startingStake,
+        uint256 endingStake,
+        uint256 stakeDays,
+        uint256 apyRate
+    );
+
+    event ClaimReward(address indexed user, uint256 reward);
+
+    event UnStake(address indexed user, uint256 amount);
 
     /////////////////
     //Owner Function//
@@ -211,6 +226,15 @@ contract TokenStaking is ReentrancyGuard, Ownable {
         StakeToken.transferFrom(msg.sender, address(this), amount);
         totalValue += amount;
         StakedUsed.push(msg.sender);
+
+        emit AddStakeValue(
+            msg.sender,
+            amount,
+            getCurrentTime(),
+            endAt,
+            stakeDays,
+            stakeToapyRate[_stakeDays]
+        );
     }
 
     /* Notice
@@ -255,6 +279,8 @@ contract TokenStaking is ReentrancyGuard, Ownable {
                 StakedUsed.pop();
             }
         }
+
+        emit ClaimReward(msg.sender, myreward);
     }
 
     /* Notice
@@ -300,6 +326,8 @@ contract TokenStaking is ReentrancyGuard, Ownable {
                 StakedUsed.pop();
             }
         }
+
+        emit UnStake(msg.sender, myreward);
     }
 
     /////////////////
