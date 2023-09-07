@@ -1,6 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.10;
 
+/*
+ * @author: Ronnie Ahmed
+ * @title: Bookstore Smart Contract
+ * @dev: This smart contract is used to store the details of books in a bookstore.
+ * @github: https://github.com/Ronnie-Ahmed
+ * Email : rksraisul@gmail.com
+ */
+
 contract Bookstore {
     error TransactionFailed();
 

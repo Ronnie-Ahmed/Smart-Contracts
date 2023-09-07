@@ -1,6 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.10;
 
+/*
+ * @author: Ronnie Ahmed
+ * @title: Got Talent Smart Contract
+ * @dev: This smart contract is used to vote for the finalists of a talent show.
+ * @github: https://github.com/Ronnie-Ahmed
+ * Email : rksraisul@gmail.com
+ */
+
 contract DWGotTalent {
     address owner;
     error TransactionFailed();
