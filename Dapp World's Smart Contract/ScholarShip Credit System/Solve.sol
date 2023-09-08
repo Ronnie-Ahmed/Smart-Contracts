@@ -1,6 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.10;
 
+/*
+ * @author: Ronnie Ahmed
+ * @tittle: Scholarship Credit System Hard
+ * @github: https://github.com/Ronnie-Ahmed
+ * Email : rksraisul@gmail.com
+ */
+
 contract ScholarshipCreditContract {
     address owner;
 
