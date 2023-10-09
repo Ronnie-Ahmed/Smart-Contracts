@@ -202,7 +202,7 @@ contract HashFunction {
     }
 }
 
-contract Verify {
+contract VerifySignature {
     function verify(
         address _signer,
         string memory _message,
@@ -259,24 +259,24 @@ contract Verify {
     }
     /* Signature Verification
 
-How to Sign and Verify
-# Signing
-1. Create message to sign
-2. Hash the message
-3. Sign the hash (off chain, keep your private key secret)
+    How to Sign and Verify
+    # Signing
+    1. Create message to sign
+    2. Hash the message
+    3. Sign the hash (off chain, keep your private key secret)
 
-# Verify
-1. Recreate hash from the original message
-2. Recover signer from signature and hash
-3. Compare recovered signer to claimed signer
+    # Verify
+    1. Recreate hash from the original message
+    2. Recover signer from signature and hash
+    3. Compare recovered signer to claimed signer
 
 
 
-ethereum.enable()
-account="0x..."
-hash=" " messageHash
-ethereum.request({ method: "personal_sign", params: [account, hash]}).then(console.log)
-will return bytes memory _sig
+    ethereum.enable()
+    account="0x..."
+    hash=" " messageHash
+    ethereum.request({ method: "personal_sign", params: [account, hash]}).then(console.log)
+    will return bytes memory _sig
      
-*/
+  */
 }
