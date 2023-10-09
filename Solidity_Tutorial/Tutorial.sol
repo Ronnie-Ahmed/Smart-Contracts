@@ -162,3 +162,42 @@ contract TestArray {
         return Arraylib.findValue(arr, _value);
     }
 }
+
+contract HashFunction {
+    function keccakhash(
+        string memory text1,
+        uint256 _num,
+        string memory text2
+    ) external pure returns (bytes32) {
+        return keccak256(abi.encodePacked(text1, _num, text2));
+    }
+
+    function encode(
+        string memory text1,
+        string memory text2
+    ) external pure returns (bytes memory) {
+        return abi.encode(text1, text2);
+    }
+
+    function encodePacked(
+        string memory text1,
+        string memory text2
+    ) external pure returns (bytes memory) {
+        return abi.encodePacked(text1, text2);
+    }
+
+    function hashCollision(
+        string memory text1,
+        string memory text2
+    ) external pure returns (bytes32) {
+        return keccak256(abi.encodePacked(text1, text2));
+        //input AA,BB then AAA,BB then AA,BBB (Hash for last Two will be same);
+    }
+
+    function avoidCollision(
+        string memory text1,
+        string memory text2
+    ) external pure returns (bytes32) {
+        return keccak256(abi.encode(text1, text2));
+    }
+}
