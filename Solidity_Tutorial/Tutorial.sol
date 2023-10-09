@@ -139,3 +139,26 @@ contract DefegateCall {
         return data;
     }
 }
+
+library Arraylib {
+    function findValue(
+        uint256[] storage arrayValues,
+        uint256 _value
+    ) internal view returns (uint256) {
+        for (uint56 i = 0; i < arrayValues.length; i++) {
+            if (arrayValues[i] == _value) {
+                return i;
+            }
+        }
+        revert("Not Found");
+    }
+}
+
+contract TestArray {
+    using Arraylib for uint256[];
+    uint256[] arr = [1, 2, 3, 4, 5, 6, 7];
+
+    function findValue(uint256 _value) public view returns (uint256) {
+        return Arraylib.findValue(arr, _value);
+    }
+}
