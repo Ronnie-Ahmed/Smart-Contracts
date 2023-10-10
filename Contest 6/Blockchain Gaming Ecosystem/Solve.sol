@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+// Interface for the Gaming Ecosystem NFT contract
 interface IGamingEcosystemNFT {
     function mintNFT(address to) external;
 
@@ -9,46 +10,64 @@ interface IGamingEcosystemNFT {
     function transferNFT(uint256 tokenId, address from, address to) external;
 }
 
+// Main contract for the Blockchain Gaming Ecosystem
 contract BlockchainGamingEcosystem {
-    uint8 private counter;
-    address immutable contractOwner;
-    address immutable nftContractAddress;
+    uint8 private counter; // Counter for NFT IDs
+    address immutable contractOwner; // Owner of the contract
+    address immutable nftContractAddress; // Address of the NFT contract
 
+    // Constructor function to initialize the contract
     constructor(address _nftAddress) {
         contractOwner = msg.sender;
         nftContractAddress = _nftAddress;
         counter = 0;
     }
 
+    // Struct for storing game details
     struct Game {
-        uint8 gameID;
-        uint16 currentAssetPrice;
-        bool isGameOn;
+        uint8 gameID; // ID of the game
+        uint16 currentAssetPrice; // Current price of the game asset
+        bool isGameOn; // Flag to indicate if the game is active
     }
 
+    // Struct for storing NFT asset details
     struct NftAssetDetails {
-        uint8 tokenId;
-        address assetOwner;
-        uint8 gameId;
-        uint16 assetPrice;
-        bool isNftIdExist;
+        uint8 tokenId; // ID of the NFT asset
+        address assetOwner; // Owner of the NFT asset
+        uint8 gameId; // ID of the game associated with the NFT asset
+        uint16 assetPrice; // Price of the NFT asset
+        bool isNftIdExist; // Flag to indicate if the NFT asset exists
     }
 
+    // Struct for storing player details
     struct Player {
-        address PlayerAddress;
-        string PlayerName;
-        uint16 PlayerCredits;
-        uint8 NFTcount;
-        bool isPlayerRegistered;
+        address PlayerAddress; // Address of the player
+        string PlayerName; // Name of the player
+        uint16 PlayerCredits; // Credits of the player
+        uint8 NFTcount; // Number of NFT assets owned by the player
+        bool isPlayerRegistered; // Flag to indicate if the player is registered
     }
 
+    // Mapping to store player details
     mapping(address => Player) addressToPlayer;
+
+    // Mapping to store NFT asset details
     mapping(uint256 => NftAssetDetails) private itToNFT;
+
+    // Mapping to store game details
     mapping(uint256 => Game) private gameToId;
+
+    // Mapping to store if a username is taken
     mapping(string => bool) private isUserNameTaken;
+
+    // Mapping to store if a game name is taken
     mapping(string => bool) private isGameNameTaken;
+
+    // Mapping to store NFT IDs associated with a game
     mapping(uint256 => uint8[]) private gameNftIds;
-    mapping(uint8 => string) private gameIdToname; // Mapping game IDs to NFT IDs
+
+    // Mapping to store game names associated with game IDs
+    mapping(uint8 => string) private gameIdToname;
 
     // Function to register as a player
     function registerPlayer(string calldata userName) public {
@@ -99,7 +118,6 @@ contract BlockchainGamingEcosystem {
             uint8[] storage nftIds = gameNftIds[gameID];
 
             for (uint8 i = 0; i < nftIds.length; i++) {
-                // uint8 tokenId = nftIds[i];
                 address owner = itToNFT[nftIds[i]].assetOwner;
                 addressToPlayer[owner].NFTcount -= 1;
                 addressToPlayer[owner].PlayerCredits += itToNFT[nftIds[i]]

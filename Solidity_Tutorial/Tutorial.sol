@@ -1,13 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
+
+// Custom error definition
 error ErrorHappen(bytes32 data, address sender);
 
+// Contract for testing purposes
 contract Test1 {
     function testing() public pure returns (uint256) {
         return 123;
     }
 }
 
+// Contract that uses Test1 contract
 contract Test2 {
     // Test1 public test1;
     function testing2(Test1 test) public pure returns (uint256) {
@@ -15,6 +19,7 @@ contract Test2 {
     }
 }
 
+// Contract that returns a name if a condition is met, otherwise throws an error
 contract ViewContract {
     bytes32 Name = "Ronnie";
 
@@ -27,6 +32,7 @@ contract ViewContract {
     }
 }
 
+// Contract that removes a value from an array
 contract DeleteArrayValue {
     uint256[] values = [1, 2, 3, 4, 5, 6, 7];
 
@@ -60,6 +66,7 @@ contract DeleteArrayValue {
     }
 }
 
+// Contract that adds and removes balances from a mapping
 contract DeleteMapping {
     mapping(address => uint256) balances;
     address[] balanceAddress;
@@ -109,8 +116,7 @@ contract DeleteMapping {
     }
 }
 
-// calldata can only be used for function input
-
+// Contract that uses delegatecall to call a function in another contract
 contract TestDelegateCall {
     uint256 public num;
     address public sender;
@@ -123,6 +129,7 @@ contract TestDelegateCall {
     }
 }
 
+// Contract that uses delegatecall to call a function in another contract
 contract DefegateCall {
     uint256 public num;
     address public sender;
@@ -140,6 +147,7 @@ contract DefegateCall {
     }
 }
 
+// Library that provides a function to find a value in an array
 library Arraylib {
     function findValue(
         uint256[] storage arrayValues,
@@ -154,6 +162,7 @@ library Arraylib {
     }
 }
 
+// Contract that uses the Arraylib library to find a value in an array
 contract TestArray {
     using Arraylib for uint256[];
     uint256[] arr = [1, 2, 3, 4, 5, 6, 7];
@@ -163,6 +172,7 @@ contract TestArray {
     }
 }
 
+// Contract that provides various hash functions
 contract HashFunction {
     function keccakhash(
         string memory text1,
