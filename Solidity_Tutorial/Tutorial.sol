@@ -280,3 +280,29 @@ contract VerifySignature {
      
   */
 }
+
+contract AbiDecode {
+    function encode(
+        string memory _name,
+        uint256 _age
+    ) external pure returns (bytes memory) {
+        return abi.encode(_name, _age);
+    }
+
+    function decode(
+        bytes memory data
+    ) external pure returns (string memory _name, uint256 _age) {
+        (_name, _age) = abi.decode(data, (string, uint256));
+    }
+
+    function encodePacked(
+        string memory _name,
+        uint256 _age
+    ) external pure returns (bytes memory) {
+        return abi.encodePacked(_name, _age);
+    }
+    // function decodePacked(bytes memory data)external pure returns(string memory _name,uint256 _age) {
+    //     (_name,_age)=abi.decode(data,(string,uint256));
+
+    // }
+}
